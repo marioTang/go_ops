@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>首页 - 光年(Light Year Admin)后台管理系统模板</title>
+  <link rel="icon" href="favicon.ico" type="image/ico">
+  <meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
+  <meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
+  <meta name="author" content="yinqi">
+  <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="../static/css/style.min.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="lyear-layout-web">
+  <div class="lyear-layout-container">
+    {{template "block/nav.html" .}}
+
+    {{template "block/header.html" .}}
+
+    <main class="lyear-layout-content">
+
+      <div class="container-fluid">
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+
+              <div class="card-body">
+
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+
+                    <thead>
+                    <tr>
+                      <th>编号</th>
+                      <th>用户</th>
+                      <th>密码</th>
+                      <th>商户名称</th>
+                      <th>备注</th>
+                      <th>编辑权限</th>
+                      <th>删除权限</th>
+                      <th>AccessKey ID</th>
+                      <th>AccessKey Secret</th>
+                      <th>管理</th>
+
+                    </tr>
+                    </thead>
+                    {{range $index, $item := .datas}}
+                      <tbody>
+                      <td>{{$item.Id}}</td>
+                      <td>{{$item.Name}}</td>
+                      <td>{{$item.Passwd}}</td>
+                      <td>{{$item.Groupname}}</td>
+                      <td>{{$item.Remarks}}</td>
+                      <td>{{$item.Edit}}</td>
+                      <td>{{$item.Deldet}}</td>
+                      <th>{{$item.Accesskeyid}}</th>
+                      <th>{{$item.Accesskeysecret}}</th>
+                      <td>
+                        <a class="btn btn-info" href="/userinfo/?edit={{$item.Id}}">编辑</a>
+                        <a class="btn btn-danger" href="/userinfo/?del={{$item.Id}}">删除</a>
+                      </td>
+
+                    </tr>
+
+                    </tbody>
+{{end}}
+
+                  </table>
+
+                </div>
+
+                <ul class="pagination">
+                  <li class="page-item"><a class="page-link" href="/userinfo/?page={{.paginator.firstpage}}">上一页</a></li>
+
+
+                  {{range $index,$page := .paginator.pages}}
+                    <li class="page-item" {{if eq $.paginator.currpage $page }}{{end}}>
+                      <a class="page-link"href="/userinfo/?page={{$page}}">{{$page}}</a></li>
+                  {{end}}
+
+                  <li class="page-item"><a class="page-link" href="/userinfo/?page={{.paginator.lastpage}}">下一页</a></li>
+                </ul>
+                <p> 共{{.totals}}条记录 共记{{.paginator.totalpages}} 页 当前{{.paginator.currpage}}页</p>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+</div>
+
+<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="../static/js/main.min.js"></script>
+
+<!--图表插件-->
+<script type="text/javascript" src="../static/js/Chart.js"></script>
+
+</body>
+</html>

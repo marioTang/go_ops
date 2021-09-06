@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>监控信息</title>
+  <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="../static/css/style.min.css" rel="stylesheet">
+  <link href="../static/css/xterm.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+<div class="lyear-layout-web">
+  <div class="lyear-layout-container">
+    {{template "block/nav.html" .}}
+
+    {{template "block/header.html" .}}
+
+    <main class="lyear-layout-content">
+
+      <div class="container-fluid">
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+
+              <div class="card-body">
+
+
+
+                <div class="form-group">
+                  <label>请选择连接IP地址</label>
+                  <select class="form-control"  id="selectdata" size="1">
+                    <option value=""></option>
+                    {{range .Hosts}}
+                      <option value="{{.Id}}">{{.Addr}}</option>
+                    {{end}}
+                  </select>
+                </div>
+
+                <button id="connect" style="width: 110px" type="button" class="btn btn-primary">连接</button>
+              </div>
+              <div class="form-group" id="terms"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="../static/js/main.min.js"></script>
+<script type="text/javascript" src="../static/js/xterm.min.js"></script>
+
+</body>
+</html>
+<script type="text/javascript" src="../static/js/xterm.min.js"></script>
+<script>
+  var socket;
+  var term;
+
+
+  $('button#connect').click(function() {
+
+    if (socket !== undefined && socket.readyState === socket.OPEN){
+      socket.close();
+    }
+    var hostid =$("#selectdata option:selected").val();  //获取选中的项
+    socket = new WebSocket('ws://' + window.location.host + '/ws/ssh?hostid=' + hostid + "&cols=800&rows=40");
+
+    socket.onopen = function () {
+      term = new Terminal({
+        cols: 800,
+        rows: 38,
+        cursorBlink: true,
+        tabStopWidth: 4
+      });
+      term.open(document.getElementById('terms'));
+
+      term.on('data', function (data) {
+        socket.send(data);
+      });
+
+
+      socket.onmessage = function (msg) {
+        term.write(msg.data);
+      };
+      socket.onerror = function (e) {
+        layer.msg("connect error");
+        console.log(e);
+      };
+
+      socket.onclose = function (e) {
+        document.getElementById('terms').innerHTML = "";
+        layer.msg("connect close");
+        term.destroy();
+      };
+    };
+  });
+
+</script>

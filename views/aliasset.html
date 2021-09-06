@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>资产管理系统</title>
+  <link rel="icon" href="favicon.ico" type="image/ico">
+  <meta name="author" content="yinqi">
+  <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="../static/css/style.min.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="lyear-layout-web">
+  <div class="lyear-layout-container">
+    {{template "block/nav.html" .}}
+
+    {{template "block/header.html" .}}
+
+    <main class="lyear-layout-content">
+
+
+
+
+
+      <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+
+              <div class="card-body">
+
+                <div class="table-responsive">
+
+                  <table class="table table-bordered">
+
+                    <thead>
+                    <tr>
+                      <th>id</th>
+                      <th>实例ID</th>
+                      <th>实例名称</th>
+                      <th>实例规格</th>
+                      <th>状态</th>
+                      <th>地域</th>
+                      <th>创建时间</th>
+                      <th>主机名称</th>
+                      <th>cpu核数</th>
+                      <th>cpu线程</th>
+                      <th>计费类型</th>
+                      <th>弹性公网速率</th>
+                      <th>弹性公网公网地址</th>
+                      <th>内网地址</th>
+                      <th>公网地址</th>
+                      <th>实例网络类型</th>
+                      <th>内存</th>
+                      <th>操作系统</th>
+                      <th>操作系统类型</th>
+                      <th>管理</th>
+
+
+
+
+
+
+                    </tr>
+                    </thead>
+                    {{range $index, $item := .datas}}
+
+                      <tbody>
+
+
+                      <td>{{$item.Id}}</td>
+                      <td>{{$item.Instanceid}}</td>
+                      <td>{{$item.Instancename}}</td>
+                      <td>{{$item.Instancetype}}</td>
+                      <td>{{$item.Status}}</td>
+                      <td>{{$item.Regionid}}</td>
+                      <td>{{$item.Creationtime}}</td>
+                      <td>{{$item.Hostname}}</td>
+                      <td>{{$item.Corecount}}</td>
+                      <td>{{$item.Threadspecore}}</td>
+                      <td>{{$item.Internetchargetype}}</td>
+                      <td>{{$item.Bandwidth}}</td>
+                      <td>{{$item.Ipaddress}}</td>
+                      <td>{{$item.Inneripaddress}}</td>
+                      <td>{{$item.Publicipaddress}}</td>
+                      <td>{{$item.Instancenetworktype}}</td>
+                      <td>{{$item.Memory}}</td>
+                      <td>{{$item.Osname}}</td>
+                      <td>{{$item.Ostype}}</td>
+                      <td>
+                        <a class="btn btn-info" href="/aliasset/?edit={{$item.Id}}&regionid={{$item.Regionid}}"><i class="mdi mdi-window-open"></i> 编辑</a>
+                        <a class="btn btn-danger" href="/aliasset/?del={{$item.Id}}&regionid={{$item.Regionid}}"><i class="mdi mdi-window-close"></i> 删除</a>
+                      </td>
+
+                    </tr>
+
+                    </tbody>
+{{end}}
+
+                  </table>
+
+                </div>
+
+                <ul class="pagination">
+                  <li class="page-item"><a class="page-link" href="/aliasset/?page={{.paginator.firstpage}}">上一页</a></li>
+
+
+                  {{range $index,$page := .paginator.pages}}
+                    <li class="page-item" {{if eq $.paginator.currpage $page }}{{end}}>
+                      <a class="page-link"href="/aliasset/?page={{$page}}">{{$page}}</a></li>
+                  {{end}}
+
+                  <li class="page-item"><a class="page-link" href="/aliasset/?page={{.paginator.lastpage}}">下一页</a></li>
+                </ul>
+                <p> 共{{.totals}}条记录 共记{{.paginator.totalpages}} 页 当前第{{.paginator.currpage}}页</p>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+    </main>
+
+  </div>
+</div>
+
+<script type="text/javascript" src="../static/js/jquery.min.js"></script>
+<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="../static/js/main.min.js"></script>
+
+<!--图表插件-->
+<script type="text/javascript" src="../static/js/Chart.js"></script>
+
+</body>
+</html>

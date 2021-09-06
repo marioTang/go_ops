@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>执行命令</title>
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="../static/css/style.min.css" rel="stylesheet">
+    <link href="../static/css/style.min.css" rel="stylesheet">
+    <script src="../static/js/lib/jquery-3.3.1.min.js"></script>
+    <script src="../static/js/lib/jquery.url.js"></script>
+    <script src="../static/js/ssh.js"></script>
+</head>
+
+<body>
+<div class="lyear-layout-web">
+    <div class="lyear-layout-container">
+        {{template "block/nav.html" .}}
+
+        {{template "block/header.html" .}}
+
+        <main class="lyear-layout-content">
+
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+
+                            <div class="card-header"><h4>执行命令</h4></div>
+                            <div class="card-body">
+
+                                <div class="form-group">
+                                    <label  for="example-multiple-select">选择主机</label>
+                                    <select class="form-control" id="selectdata" size="5" multiple>
+                                        {{range $index, $item := .datas}}
+                                            <option value="{{$item.Hostname}}">{{$item.Hostname}}</option>
+                                        {{end}}
+                                    </select>
+                                    <div>
+                                        <div class="form-group">
+                                            <label>请输入执行命令</label>
+                                            <textarea class="form-control"  id="cmd" name="cmd" rows="5" ></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <pre class="content" id="alert"></pre>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" type="submit" name="mkdir" id="plmxs_submit" >执行</button>
+                                            <a class="btn btn-info" href="/sshrun">返回</a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+        </main>
+
+    </div>
+</div>
+
+<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../static/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="../static/js/main.min.js"></script>
+
+<!--图表插件-->
+<script type="text/javascript" src="../static/js/Chart.js"></script>
+
+</body>
+</html>
